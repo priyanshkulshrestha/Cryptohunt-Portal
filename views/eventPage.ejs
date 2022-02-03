@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCF: Cryptohunt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="nav">
+        <div class="logo-container">
+            <img src="https://techathlon21.netlify.app/images/ipec.png" height="80px" alt="">
+            <img src="logotrinity.png" height="80px" alt="">
+        </div>
+        <div class="text-large">
+            <span class="accent-text">Flag</span> CRYPTOHUNT
+        </div>
+    </div>
+    <div class="section">
+        <div class="questionSection">
+            <div class="questionDetails">
+                <div class="left">
+                    Question Number: <%= question.questionNumber %>
+                </div>
+                <div class="right">
+                    <div class="label-accent">
+                        Weightage: <%= question.weightage - team.hintsUsed*10 %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="question">
+                <%= question.question %>
+            </div>
+            <br><br>
+            <div class="links">
+                <div class="label-accent">
+                    Links for Question
+                </div>
+                <ul>
+                    <% for (let i=0; i<question.questionLink.length;i++){ %>
+                        <li>
+                            <%=question.questionLink[i].linkName %>: <a href="<%=question.questionLink[i].linkText %>">
+                                    <%=question.questionLink[i].linkText %>
+                                </a>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
+            <% if(team.hintsUsed>0){ %>
+                <div class="hints">
+                    <div class="label-accent">
+                        Hints for Question
+                    </div>
+                    <ul>
+                        <% for (let i=0; i<team.hintsUsed;i++){ %>
+                            <li>
+                                <%=question.questionHint[i].hintName %>: <%=question.questionHint[i].hintText %>
+                            </li>
+                            <% } %>
+                    </ul>
+                </div>
+                <%}%>
+
+
+                    <form action="/checkAnswer" method="post" class="answerForm">
+                        <input type="text" name="questionFlag" placeholder="Answer goes here">
+                        <button id="submit">Submit Answer</button>
+                    </form>
+                    <br>
+                    <% if(messages.wrongAnswer){%>
+                        <div class="text-red">
+                            <%=messages.wrongAnswer%>
+                        </div>
+                        <%}%>
+                            <% if(messages.rightAnswer){%>
+                                <div class="text-green">
+                                    <%=messages.rightAnswer%>
+                                </div>
+                                <%}%>
+        </div>
+        <div class="teamSection">
+            Team Playing: <span class="accent-text">
+                <%= team.teamName%>
+            </span>
+            <br> <br>
+            Current Score: <span class="accent-text">
+                <%= team.score%>
+            </span>
+            <br> <br>
+            Hints Used: <span class="accent-text">
+                <%= team.hintsUsed%>
+            </span>
+            <br><br>
+            <div class="dark-mode-toggle" style="display: flex; align-items: center;">
+                <div class="label">Dark Mode:&nbsp; </div> <label class="switch">
+                    <input checked type="checkbox" id="darkmode">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <br><br>
+
+            <a href="/getHint" style="text-decoration: none; ">
+                <button class="btn-getHint">Get Hint</button>
+            </a>
+            <a href="/logout" style="text-decoration: none;">
+                <button class="btn-logout">
+                    Logout
+                </button></a>
+            <a href="/skipQuestion" style="text-decoration: none;">
+                <button class="btn-logout">
+                    Skip
+                </button></a>
+            <br><br>
+            <%= randomQuote.content %>
+                <br>
+                - <%= randomQuote.author %>
+        </div>
+    </div>
+    <script>
+        var toggle = document.getElementById('darkmode')
+        if (localStorage.getItem('light')) {
+            toggle.checked ^= 1;
+            document.body.classList.toggle('dark-theme')
+        }
+        else {
+        }
+
+        toggle.addEventListener('click', e => {
+            if (toggle.checked) {
+                localStorage.removeItem('light',)
+            }
+            else {
+                localStorage.setItem('light', true)
+            }
+            document.body.classList.toggle('dark-theme')
+        })
+    </script>
+</body>
+
+</html>
